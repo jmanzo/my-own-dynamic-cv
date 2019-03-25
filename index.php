@@ -1,8 +1,31 @@
 <?php
 
+require_once 'vendor/autoload.php';
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+use App\Models\Job;
+
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'platzi-php',
+    'username'  => 'root',
+    'password'  => '',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+// Make this Capsule instance available globally via static methods... (optional)
+$capsule->setAsGlobal();
+// Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
+$capsule->bootEloquent();
+
 require_once('jobs.php');
 
-$name = 'Jean Manzo';
+$name = 'Hector Benitez';
 $limitMonths = 2000;
 
 ?>
@@ -33,10 +56,10 @@ $limitMonths = 2000;
         <h1><?php echo $name; ?></h1>
         <h2>PHP Developer</h2>
         <ul>
-          <li>Mail: jdevmanzo@gmail.com</li>
-          <li>Phone: +573505786124</li>
-          <li>LinkedIn: https://linkedin.com/jmanzosistemas</li>
-          <li>Twitter: @jdevmanzo</li>
+          <li>Mail: hector@mail.com</li>
+          <li>Phone: 1234567890</li>
+          <li>LinkedIn: https://linkedin.com</li>
+          <li>Twitter: @hectorbenitez</li>
         </ul>
       </div>
     </div>
@@ -68,7 +91,7 @@ $limitMonths = 2000;
             ?>
           </ul>
         </div>
-        <div>
+        <!-- <div>
             <h3 class="border-bottom-gray">Projects</h3>
             <ul>
             <?php
@@ -77,38 +100,7 @@ $limitMonths = 2000;
             }
             ?>
           </ul>
-
-            <div class="project">
-                <h5>Project X</h5>
-                <div class="row">
-                    <div class="col-3">
-                        <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
-                      </div>
-                      <div class="col">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius earum corporis at accusamus quisquam hic quos vel? Tenetur, ullam veniam consequatur esse quod cum, quam cupiditate assumenda natus maiores aperiam.</p>
-                        <strong>Technologies used:</strong>
-                        <span class="badge badge-secondary">PHP</span>
-                        <span class="badge badge-secondary">HTML</span>
-                        <span class="badge badge-secondary">CSS</span>
-                      </div>
-                </div>
-            </div>
-            <div class="project">
-                <h5>Project X</h5>
-                <div class="row">
-                    <div class="col-3">
-                        <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
-                      </div>
-                      <div class="col">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius earum corporis at accusamus quisquam hic quos vel? Tenetur, ullam veniam consequatur esse quod cum, quam cupiditate assumenda natus maiores aperiam.</p>
-                        <strong>Technologies used:</strong>
-                        <span class="badge badge-secondary">PHP</span>
-                        <span class="badge badge-secondary">HTML</span>
-                        <span class="badge badge-secondary">CSS</span>
-                      </div>
-                </div>
-            </div>
-          </div>
+        </div> -->
       </div>
       <div class="col-3">
         <h3 class="border-bottom-gray" >Skills & Tools</h3>
@@ -135,7 +127,7 @@ $limitMonths = 2000;
     </div>
     <div id="resume-footer" class="row">
       <div class="col">
-          Designed by @jdevmanzo
+          Designed by @hectorbenitez
       </div>
     </div>
   </div>
