@@ -47,20 +47,6 @@ $map->post('saveJob', '/jobs/add', [
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 
-function printElement($job) {
-    echo '<li class="work-position">';
-    echo '<h5>' . $job->title . '</h5>';
-    echo '<p>' . $job->description . '</p>';
-    echo '<p>' . $job->getDurationAsString() . '</p>';
-    echo '<strong>Achievements:</strong>';
-    echo '<ul>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '</ul>';
-    echo '</li>';
-}
-
 if (!$route) {
     echo "No hay una ruta definida.";
 } else {
@@ -68,5 +54,7 @@ if (!$route) {
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
     $controller = new $controllerName;
-    $controller->$actionName($request);
+    $response = $controller->$actionName($request);
+
+    echo $response->getBody();
 }
