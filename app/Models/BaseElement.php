@@ -2,7 +2,7 @@
 namespace App\Models;
 
 class BaseElement implements Printable {
-    protected $title;
+    public $title;
     public $description;
     public $visible = true;
     public $months;
