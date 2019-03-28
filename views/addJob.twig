@@ -2,6 +2,11 @@
 
 {% block content %}
     <h1>Add Job</h1>
+
+    <div class="alert alert-success">
+    	{{ messageResponse }}
+    </div>
+
     <form action="/jobs/add" method="post" >
         <label for="">Title:</label>
         <input type="text" name="title" ><br>
@@ -9,5 +14,4 @@
         <input type="text" name="description"><br>
         <button type="submit">Save</button>
     </form>
-    </body>
 {% endblock %}
