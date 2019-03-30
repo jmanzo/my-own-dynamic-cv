@@ -4,6 +4,8 @@ require_once "../vendor/autoload.php";
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 
+session_start();
+
 $capsule = new Capsule;
 
 $capsule->addConnection([
@@ -35,13 +37,46 @@ $map->get('index', '/', [
     'controller' => 'App\Controllers\IndexController',
     'action' => 'indexAction',
 ]);
+
 $map->get('addJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJob',
+    'auth' => true,
 ]);
 $map->post('saveJob', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJob',
+    'auth' => true,
+]);
+
+$map->get('addUser', '/users/add', [
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'getAddUser',
+    'auth' => true,
+]);
+$map->post('saveUser', '/users/add', [
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'postSaveUser',
+    'auth' => true,
+]);
+
+$map->get('login', '/login', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'getLogin',
+]);
+$map->get('logout', '/logout', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'getLogout',
+]);
+$map->post('auth', '/auth', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'postAuth',
+]);
+
+$map->get('admin', '/admin', [
+    'controller' => 'App\Controllers\AdminController',
+    'action' => 'getIndex',
+    'auth' => true,
 ]);
 
 $matcher = $routerContainer->getMatcher();
@@ -53,8 +88,24 @@ if (!$route) {
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
+    $needsAuth = $handlerData['auth'] ?? false;
+
     $controller = new $controllerName;
     $response = $controller->$actionName($request);
+    $authUserId = $_SESSION['userId'] ?? false;
+
+    if ($needsAuth && !$authUserId) {
+        echo "Protected route";
+        return;
+    }
+
+    foreach ($response->getHeaders() as $name => $values) {
+        foreach ($values as $value) {
+            header(sprintf('%s: %s', $name, $value), false);
+        }
+    }
+
+    http_response_code($response->getStatusCode());
 
     echo $response->getBody();
 }
